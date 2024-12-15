@@ -41,19 +41,45 @@ A folder named `screenshots` contains the following images:
 
 ---
 
-## 4. DHCP Configuration
-- **FIRST-SWITCH Pool**: 168.90.0.0/16  
-- **SECOND-SWITCH Pool**: 210.3.14.0/24  
-- **Excluded Addresses**:
-  - 168.90.0.1  
-  - 210.3.14.1  
+## 4. DHCP Configuration Details
 
----
+### Commands Used on the Router
+The following commands were used to configure DHCP on the router:
 
-## 5. Ping Test Results
-- **Laptop0 to Server1**: Success ✔  
-- **Server1 to Laptop0**: Partial success (25% packet loss) ✔  
+1. **Access Global Configuration Mode**:
+   ```plaintext
+   Router> enable
+   Router# configure terminal
 
----
 
-*End of Document*
+2. * Configure DHCP for the First Switch*:
+
+Define the DHCP pool for 168.90.0.0/16:
+ip dhcp pool FIRST-SWITCH
+network 168.90.0.0 255.255.0.0
+default-router 168.90.0.1
+exit
+
+Exclude router IP:
+ip dhcp excluded-address 168.90.0.1
+
+3. ### Configure DHCP for the Second Switch:
+
+Define the DHCP pool for 210.3.14.0/24:
+ip dhcp pool SECOND-SWITCH
+network 210.3.14.0 255.255.255.0
+default-router 210.3.14.1
+exit
+
+Exclude router IP:
+ip dhcp excluded-address 210.3.14.1
+
+4. ### Verify DHCP Configuration:
+show ip dhcp pool
+show running-config
+
+5. Ping Test Results
+Laptop0 to Server1: Success ✔
+Server1 to Laptop0: Partial success (25% packet loss) ✔
+
+End of Document
